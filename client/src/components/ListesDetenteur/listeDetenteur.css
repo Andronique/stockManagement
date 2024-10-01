@@ -1,0 +1,165 @@
+
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container-detenteur .table{
+    width: 100%;
+}
+
+
+
+.container-detenteur .talbe_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(240, 240, 240) ;
+}
+.talbe_header p {
+    color: #000000;
+}
+
+.container-detenteur  button{
+    outline: none;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 7px;
+    color: #ffffff;
+}
+
+.container-detenteur td button:nth-child(1){
+    background-color:var(--blue);
+}
+.container-detenteur td button:nth-child(2){
+    background-color: #f80000;
+}
+
+.container-detenteur .add_new{
+    padding: 10px 20px ;
+    color: #ffffff;
+    background-color:var(--blue);
+}
+
+.container-detenteur th , td {
+    border-bottom: 1px solid #dddddd;
+    padding: 10px 20px;
+    word-break: break-all;
+    
+}
+
+.container-detenteur input{
+    padding: 10px 20px ;
+    margin: 0 10px;
+    border: 1px solidvar(--blue);
+    border-radius: 6;
+}
+
+.container-detenteur .table_section{
+    height: 500px;
+    overflow: auto;
+}
+.container-detenteur table{
+    width: 100%;
+    table-layout: fixed;
+   
+}
+.container-detenteur .table_section{
+    height: 100%;
+    table-layout: fixed;
+}
+
+.container-detenteur thead th {
+    position: sticky;
+    top: 0;
+    background-color: #f6f9fc;
+    color: #8493a5;
+    font-size: 15px;
+}
+
+.container-detenteur td img{
+    height: 60px;
+    width: 10px 20px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 5px solid #ced0d2;
+}
+
+/* .container-detenteur tr:hover td {
+    color:var(--blue);
+    cursor: pointer;
+    background-color: #f6f9fc;
+} */
+ 
+.container-detenteur ::placeholder{
+    color:var(--blue);
+}
+
+.container-detenteur  table .icon{
+    font-size: 17px;
+}
+.container-detenteur table .tdbtns{
+    display: flex;
+    gap: 10px;
+}
+
+/* ========= style form detenteur ========= */
+
+.formAddDetenteur {
+    padding: 15px;
+    background-color: aliceblue;
+    border-radius: 4px;
+    width: 50%;
+}
+.formAddDetenteur  .headformDetenteur{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.formAddDetenteur label {
+    display: block;
+}
+.formAddDetenteur input {
+    width: 100%;
+    margin: 0;
+}
+.formAddDetenteur .row {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.headformDetenteur .icon{
+    color: var(--red);
+    font-size: 30px;
+}
+
+.table_section thead tr td:last-child{
+    text-align: right;
+}
+.table_section thead {
+    /* background-color: rgba(65, 70, 147, .9); */
+    color: var(--blue);
+}
+
+
+
+
+
+.table_section .row  span{
+    text-align: right;
+    display: flex;
+    justify-content: end;
+} 
+.table_section th:first-child{
+    text-align: left;
+}
+.table_section th:last-child{
+    text-align: right;
+}
