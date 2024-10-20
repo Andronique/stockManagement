@@ -1,6 +1,7 @@
-"use server"
+
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   AiFillHome,
@@ -19,6 +20,11 @@ import "./sidebar.css";
 
 
 function Sidebar({toggleMenu}) {
+
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+
 
     const activeLink=()=> {
         const list = document.querySelectorAll(".navigation li");
@@ -42,6 +48,8 @@ function Sidebar({toggleMenu}) {
             <span className="title">Gestion de stock</span>
           </NavLink>
         </li>
+        {user && (user.role === "admin" || user.role === "user") &&
+           (<>
 
         <li>
           <NavLink to="/dashboard">
@@ -53,7 +61,7 @@ function Sidebar({toggleMenu}) {
         </li>
 
         <li>
-          <NavLink to="/articles">
+          <NavLink to="/entree-article">
             <span className="icon">
               <CiInboxIn className="ionIcon" />
             </span>
@@ -61,7 +69,7 @@ function Sidebar({toggleMenu}) {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/exitArticle">
+          <NavLink to="/exit-article">
             <span className="icon">
               <IoExitOutline  className="ionIcon" />
             </span>
@@ -82,11 +90,22 @@ function Sidebar({toggleMenu}) {
             <span className="icon">
               <AiOutlineUsergroupAdd className="ionIcon" />
             </span>
-            <span className="title">Detenteur</span>
+            <span className="title">Détenteur</span>
           </NavLink>
         </li>
-
+        <li>
+          <NavLink to="/users">
+            <span className="icon">
+              <AiOutlineUsergroupAdd className="ionIcon" />
+            </span>
+            <span className="title">Users</span>
+          </NavLink>
+        </li>
+           </>)
+        }
       
+
+
 
         <li>
           <NavLink to="/journalstock">
@@ -96,6 +115,7 @@ function Sidebar({toggleMenu}) {
             <span className="title">Journal de stock</span>
           </NavLink>
         </li>
+
         <span className="reduire" onClick={toggleMenu}>
           <span className="icon">
             <FaCircleChevronLeft className="ionIcon" />
@@ -109,10 +129,3 @@ function Sidebar({toggleMenu}) {
 }
 
 export default Sidebar
-
-
-
-
-
-
-

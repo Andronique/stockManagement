@@ -1,16 +1,49 @@
-.navbar{
-    position: sticky;
-    top: 0px;
-    /* padding: 5px; */
-    background-color: rgba(255, 255, 255, 0.8);  /* Transparent white */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);   /* Light shadow */
-    padding-left: 10px;
-    height: 50px;
-    line-height: 50px;
 
+
+.header{
+    background-color: red;
 }
 
-.navbar h1{
+.header-container{
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+    padding: 7px ;
+    border-bottom:2px solid hsla(0, 0%, 9%, 0.822);  
+   /* background-color:   #CF0101; */
+
+
+}
+.header-container h3{
     color: var(--blue);
-    font-size: 17px;
+   font-weight: 400;
+}
+
+.header-left{
+    display: flex ;
+    align-items: center;
+    gap: 3px;
+}
+.sidebar-toggler{
+    outline: none;
+    border: none;
+    
+}
+.header-container .icon{
+    width: 30px;
+    height: 25px;
+    color: var(--blue);
+}
+.header-container button{
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: transparent;
+
+    
+}
+.header-btns {
+    display: flex;
+    gap: 10px;
 }

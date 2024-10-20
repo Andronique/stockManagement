@@ -10,35 +10,55 @@ const initialState = {
 }
 
 export const LoginUser = createAsyncThunk("user/LoginUser", async(user, thunkAPI) => {
+    
     try {
-        const response = await axios.post('http://localhost:3001/login', {
+        const response = await axios.post('http://localhost:5000/login', {
             email: user.email,
             password: user.password
+        }, {
+            withCredentials: true
+        });
+        return response.data;
+    } catch (error) { 
+        if(error.response){
+            const message = error.response.data.msg;
+            return thunkAPI.rejectWithValue(message);
+        }
+    }
+});
+
+export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
+    try {
+        const response = await axios.get('http://localhost:5000/me', {
+            withCredentials: true  // Add this line to send cookies
         });
         return response.data;
     } catch (error) {
-        if(error.response){
+        if (error.response) {
             const message = error.response.data.msg;
             return thunkAPI.rejectWithValue(message);
         }
     }
 });
 
-export const getMe = createAsyncThunk("user/getMe", async(_, thunkAPI) => {
+
+
+export const LogOut = createAsyncThunk("user/LogOut", async(_, thunkAPI) => {
+    let response;
     try {
-        const response = await axios.get('http://localhost:3001/me');
+         response = await axios.delete('http://localhost:5000/logout', {
+            withCredentials: true // Ensure cookies are sent
+        });
         return response.data;
+        console.log(response.data)
     } catch (error) {
-        if(error.response){
+        if (error.response) {
             const message = error.response.data.msg;
             return thunkAPI.rejectWithValue(message);
         }
     }
 });
 
-export const LogOut = createAsyncThunk("user/LogOut", async() => {
-    await axios.delete('http://localhost:3001/logout');
-});
 
 export const authSlice = createSlice({
     name: "auth",

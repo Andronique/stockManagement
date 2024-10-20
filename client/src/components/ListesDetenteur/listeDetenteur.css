@@ -1,6 +1,4 @@
-
-
-
+/* 
 *{
     margin: 0;
     padding: 0;
@@ -54,12 +52,7 @@
     
 }
 
-.container-detenteur input{
-    padding: 10px 20px ;
-    margin: 0 10px;
-    border: 1px solidvar(--blue);
-    border-radius: 6;
-}
+
 
 .container-detenteur .table_section{
     height: 500px;
@@ -96,7 +89,7 @@
     cursor: pointer;
     background-color: #f6f9fc;
 } */
- 
+/*  
 .container-detenteur ::placeholder{
     color:var(--blue);
 }
@@ -104,55 +97,32 @@
 .container-detenteur  table .icon{
     font-size: 17px;
 }
+
 .container-detenteur table .tdbtns{
     display: flex;
     gap: 10px;
-}
+} */
 
 /* ========= style form detenteur ========= */
 
-.formAddDetenteur {
-    padding: 15px;
-    background-color: aliceblue;
-    border-radius: 4px;
-    width: 50%;
-}
-.formAddDetenteur  .headformDetenteur{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.formAddDetenteur label {
-    display: block;
-}
-.formAddDetenteur input {
-    width: 100%;
-    margin: 0;
-}
-.formAddDetenteur .row {
-    width: 100%;
-    margin: 10px 0;
-}
-
-.headformDetenteur .icon{
+/* .headformDetenteur .icon{
     color: var(--red);
     font-size: 30px;
 }
 
 .table_section thead tr td:last-child{
     text-align: right;
-}
-.table_section thead {
+} */
+/* .table_section thead { */
     /* background-color: rgba(65, 70, 147, .9); */
-    color: var(--blue);
-}
+    /* color: var(--blue);
+} */
 
 
 
 
 
-.table_section .row  span{
+/* .table_section .row  span{
     text-align: right;
     display: flex;
     justify-content: end;
@@ -162,4 +132,45 @@
 }
 .table_section th:last-child{
     text-align: right;
+} */ 
+
+
+
+
+.bodyformDetenteur  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #495057; /* Darker gray for labels */
+  }
+  
+  .bodyformDetenteur  input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da; /* Light gray border */
+    border: 1px solid #616366; /* Light gray border */
+
+    background-color: #fff;
+    color: #495057;
+  }
+  
+  .bodyformDetenteur input::placeholder {
+    color: #6c757d; /* Lighter gray for placeholders */
+  }
+  
+  .bodyformDetenteur  input:focus {
+    outline: none;
+    border-color: #80bdff; /* Light blue focus border */
 }
+
+
+#td-right{
+    text-align: left;
+}
+/* .container-detenteur input{
+    padding: 10px 20px ;
+    margin: 0 10px;
+    border: 1px solidvar(--blue);
+    border-radius: 6;
+} */

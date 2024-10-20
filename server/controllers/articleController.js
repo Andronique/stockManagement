@@ -42,6 +42,7 @@ const addArticleMouvement = async(req , res) =>{
         const mouvement = await MouvementStock.create({
             itemId: article.id,  // ID of the newly created article
             numArticle,
+    
             typeMouvement: "entree",
             design,
             quantite,
@@ -68,6 +69,8 @@ const getAllArticle = async (req, res)=>{
     let article = await  Article.findAll({})
     res.status(200).send(article)
 }
+
+
 
 
 export { addArticle , getAllArticle, addArticleMouvement}

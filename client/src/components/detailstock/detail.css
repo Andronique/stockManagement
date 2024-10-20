@@ -1,0 +1,40 @@
+.detailstock .talbe_header input {
+    width: 300px;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da; /* Light gray border */
+    border: 1px solid #616366; /* Light gray border */
+  
+    background-color: #fff;
+    color: #495057;
+  }
+  
+  .detailstock .talbe_header input::placeholder {
+    color: #6c757d; /* Lighter gray for placeholders */
+  }
+  
+  .detailstock .talbe_header  input:focus {
+    outline: none;
+    border-color: #80bdff; /* Light blue focus border */
+  }
+
+  .detailstock  input {
+    width: 350px;
+    display: block;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ced4da; /* Light gray border */
+    border: 1px solid #616366; /* Light gray border */
+
+    background-color: #fff;
+    color: #495057;
+  }
+  
+  .detailstock input::placeholder {
+    color: #6c757d; /* Lighter gray for placeholders */
+  }
+  
+  .detailstock input:focus {
+    outline: none;
+    border-color: #80bdff; /* Light blue focus border */
+}

@@ -1,10 +1,23 @@
 :root {
   --softblue: #2a2185;
   --blue:#302D59;
+  --lightBlue:#494790ea;
+  --lighterBlue:#5C58B2;
   --white: #fff;
   --gray: #F5F5F5;
   --black1: #222;
   --black: #999;
+  --blackColor:hsl(0, 0%,18%);
+  --greyText:hsl(113, 11%, 85%);
+  --greyTextdark:hsl(120, 1%, 46%);
+  --inputColor: hsl(330, 12%, 97%);
+  --whiteColor:hsl(0, 0%, 100%);
+  --primaryColor: hsl(94, 55%, 56%);
+  --hoverColor:hsl(93, 75%, 76%);
+  --paleGreen: hsl(96, 75%, 89%);
+  --softprimary:#0298cf;
+  --softprimary:#2a2185;
+  --red :  #CF0101;
 }
 
 *{
@@ -12,33 +25,352 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
+  transition: 0.5s;
 }
 
 body{
-  min-height:100vh;
-  overflow-x:hidden;
+  font-family: "Poppins", sans-serif;
+  /* overflow: hidden; */
 }
+/* Custom scrollbar for WebKit browsers (Chrome, Safari, etc.) */
+body::-webkit-scrollbar {
+  width: 10px;                /* Width of the scrollbar */
+}
+
+/* Track (background of the scrollbar) */
+body::-webkit-scrollbar-track {
+  background: #f1f1f1;         /* Color of the track */       /* Rounded corners for the track */
+}
+
+/* Handle (the scrolling part) */
+body::-webkit-scrollbar-thumb {
+  background-color: #888;      /* Color of the scrollbar handle */     /* Rounded corners for the handle */
+  /* border: 3px solid #f1f1f1;   Adds some space around the handle */
+}
+
+/* Handle on hover */
+body::-webkit-scrollbar-thumb:hover {
+  background: #555;            /* Darker color when hovering */
+}
+
+
+.flex{
+  display: flex;
+  align-items: center;
+}
+.btn{
+  border: none;
+  padding: 7.5px 15px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: white;
+  outline: none;
+  border: 1px solid red;
+} 
+
+.flex1{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+} 
+
+.grid{
+  display: grid;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+
 
 .container{
   position: relative;
-  width: 100%;
+  width: 99%;
+  margin: 2px auto;
 }
 
 .main{
   position: absolute;
   width: calc(100% - 240px);
   left: 240px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background-color: var(--white);
   transition: .5s;
 }
 
 .titleOne{
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 600;
   color: var(--blue);
 }
+.titleOneSupp{
+  font-size: 19px;
+  font-weight: 600;
+  color: rgb(256,0,0);
+}
+
+.showMessage{
+  color: rgb(256,0,0);
+  border-radius: 3px;
+  text-align: center;
+  padding: 5px;
+}
+
+/* ======================= Styling buttons =================== */
+
+.btn{
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 15px;
+  color: white;
+}
+.add_new{
+  padding: 8px 20px ;
+  color: #ffffff;
+  background-color: var(--softprimary);
+  border-radius: 7px;
+}
+
+.primary{
+  background-color: var(--softprimary);
+}
+
+button:hover{
+  opacity: 0.97;
+  transform: scale(1.05);
+}
+
+
+.danger {
+   background-color: var(--red);
+ } 
+.text-danger-hover:hover{
+  transform: scale(1.3);
+} 
+
+
+
+button span{
+  font-size: 15px;
+}
+
 
 /* ============ Table style ============ */
 
+.table{
+  width: 100%;
+}
 
+
+
+.talbe_header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: rgba(240, 240, 240) ;
+}
+.talbe_header p {
+  color: var(--blue);
+}
+th, td, table{border-collapse: collapse;}
+.table button{
+  outline: none;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding:5px 7px;
+  color: #ffffff;
+}
+
+.table td a{
+  outline: none;
+  border: none;
+  outline: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding:3px 7px;
+  color: #ffffff;
+}
+
+
+
+
+td a{
+  background-color: var(--softprimary);
+}
+td button:nth-child(1){
+  background-color: #f80000;
+}
+
+
+
+th , td {
+  border-bottom: 1px solid #dddddd;
+  padding: 10px 10px;
+  word-break: break-all;
+  text-align: center;
+}
+
+.table input{
+  padding: 10px 20px ;
+  margin: 0 10px;
+  border: 1px solid var(--softprimary);
+  border-radius: 6;
+}
+
+.table_section{
+  height: 500px;
+  overflow: auto;
+}
+.table table{
+  width: 100%;
+  margin: auto;
+  table-layout: fixed;
+
+}
+.table_section{
+  /* height: 100%; */
+  table-layout: fixed;
+
+}
+
+
+.table td img{
+  height: 60px;
+  width: 10px 20px;
+  object-fit: cover;
+  border-radius: 15px;
+  border: 5px solid #ced0d2;
+}
+ 
+.table tbody tr:hover td {
+  color: var(--softprimary);
+  cursor: pointer;
+}
+
+.table .selected{
+  background-color: #249af54d;
+  color: var(--softprimary);
+}
+
+.table .tdbtns{
+
+  display: flex;
+  gap: 10px;
+  flex-direction: row-reverse;
+}
+
+::placeholder{
+  color: var(--softprimary);
+}
+#td-left{
+  text-align: left;
+  width: 100px;
+
+}
+
+thead{
+  background-color: var(--lightBlue);
+  color: var(--gray);
+}
+/* ============= wrapper Modale ========= */
+
+.wrapperModale{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.548);
+  transition: 0.7s;
+  z-index: 1000;
+  width: 100%;
+  
+}
+.wrapperModale >div{
+  /* margin-bottom: 20px; */
+}
+
+
+/* ========= Modal style ============ */
+.modal {
+  padding: 15px;
+  background-color: aliceblue;
+  border-radius: 4px;
+  width: 50%;
+}
+
+.modal .headformDetenteur{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal label {
+  display: block;
+}
+.modal input {
+  width: 100%;
+  margin: 0;
+}
+.modal .row {
+  width: 100%;
+  margin: 10px 0;
+}
+.modal .headformDetenteur .icon{
+  color: var(--red);
+  font-size: 30px;
+}
+
+
+.back {
+  cursor: pointer;
+  font-size: 30px;
+}
+
+/* ==== mouvement modalMouvement ====== style */
+
+.modalMouvement {
+  padding: 15px;
+  background-color: aliceblue;
+  border-radius: 4px;
+  width: 80%;
+}
+
+.modalMouvement .headformDetenteur{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ .modalMouvement label {
+  display: block;
+}
+.modalMouvement input {
+
+  width: 100%;
+  margin: 0;
+  border-radius: 4px;
+}
+/*.modalMouvement .row {
+  width: 100%;
+  margin: 10px 0;
+} */
+.modalMouvement .headformDetenteur .icon{
+  color: var(--red);
+  font-size: 30px;
+}
+
+
+.back {
+  cursor: pointer;
+  font-size: 30px;
+}

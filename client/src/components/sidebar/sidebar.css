@@ -86,6 +86,7 @@
 .active{
     background-color:  var(--white);
     color: var(--blue);
+    border-top: 1px solid var(--blue);
     /* border-top-left-radius: 30px;
     border-bottom-left-radius: 30px; */
 }

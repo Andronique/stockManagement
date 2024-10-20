@@ -1,11 +1,26 @@
-const modelDetenteur = (sequelize, DataTypes) => {
-    const Detenteur = sequelize.define("detenteurs", {
-        detenteur: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }, 
-    });
+import { Sequelize } from "sequelize";
+import db from "../config/dbConfig.js";
 
-    return Detenteur;
-};
-export default modelDetenteur;
+const {DataTypes} = Sequelize;
+
+const Detenteur = db.define('detenteur', {
+    uuid: {
+    type: DataTypes.STRING,
+    defaultValue: DataTypes.UUIDV4,
+    allowNull: false,
+    validate:{ 
+        notEmpty: true
+    }},
+    post: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    validate:{ 
+        notEmpty: true,
+        len: [3, 100]
+    }},
+},{
+    freezeTableName: true
+})
+
+export default Detenteur;
+

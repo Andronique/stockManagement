@@ -1,0 +1,87 @@
+.formUpdate{
+    margin-top: 10px;
+    border: 2px solid var(--black);
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  .formUpdate .headform{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .formUpdate .headform .icon{
+   font-size: 27px;
+   color: var(--blue);
+   cursor: pointer;
+  }
+  .formUpdate .headform .icon:hover{
+    color: rgb(0, 38, 255);
+  }
+  .formUpdate .headform .icon.clicked{
+    transform: rotate(180deg);
+    
+  }
+  
+  .formUpdate .bodyform{
+    margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formUpdate .bodyform .rowStart{
+    transition: 0.5s;
+    gap: 10px; 
+    column-gap: 15px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+  }
+  .formUpdate .bodyform .rowOne{
+    margin-bottom: 10px;
+    transition: 0.5s;
+    gap: 10px; 
+    column-gap: 15px;
+    display: grid;
+    grid-template-columns:  1.5fr 0.47fr 1fr;
+
+  }
+
+
+
+  .formUpdate .bodyform .row label{
+   display: block;
+  
+  }
+  
+  .formUpdate button .icon{
+    font-size: 17px;
+  }
+  
+  .formUpdate .bodyform label {
+    display: block;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+    color: #495057; /* Darker gray for labels */
+  }
+  .formUpdate .bodyform input , select, Select{
+      /* border: 2px solid rgba(50, 50, 50, 0.7); */
+      border: 1px solid #616366;
+      outline: none;
+      /* padding: 6px 9px; */
+      padding: 8px;
+      border-radius: 4px;
+      width: 100%;
+   
+      color: fff;
+  }
+  
+  .formUpdate .bodyform input:focus,
+  .formUpdate .bodyform select:focus {
+    outline: none;
+    border-color: #489efa; /* Light blue focus border */
+  }
+  
+  

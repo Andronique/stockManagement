@@ -1,92 +1,86 @@
 
 import React , {useEffect, useState}from 'react'
-import './listeDetenteur.css'
 import { FaTrash } from "react-icons/fa6";
 import { FaEdit, FaRegWindowClose } from "react-icons/fa";
 import { GrValidate } from 'react-icons/gr';
 import { TiCancel } from 'react-icons/ti';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import './listeDetenteur.css'
 
 function ListeDetenteur() {
 
     const [ajoutData , setDatajout] = useState(false)
     const [modifModale , setModifModale] = useState(false)
-    const [allData, setAllData] = useState([]);
-    const [name, setname] = useState(null);
+    const [detenteurs, setDetenteurs] = useState([]);
+    const [post, setPost] = useState(null);
     const [id, setid] = useState(null);
-    const [suppModale, setsuppModale] = useState(true);
+    const [suppModale, setsuppModale] = useState(false);
 
     useEffect(()=> {
-        getAlldetenteur();
+      getDetenteurs();
     }, [])
     
     // ================= talk to server =========
     const ajoutDetenteur= async (e) => {
         e.preventDefault()
         const data = {
-            name: name,
+            post: post,
         }
-        console.log(data)
-        const res = await fetch('http://localhost:3002/api/detenteurs/addDetenteur' , {
-          method: "POST",
-          headers: {"Content-Type" : "application/json"},
-          body:JSON.stringify(data)
+        const res = await axios.post('http://localhost:5000/detenteurs' ,data,  {
+          withCredentials: true
       })
-      getAlldetenteur();
+      getDetenteurs();
       setDatajout(false)
       emptyData();
     }
 
+
+    const getDetenteurs = async()=>{
+      await axios.get('http://localhost:5000/detenteurs',{
+         withCredentials: true
+     })
+     .then((res) => setDetenteurs(res.data))
+     .catch((err) => console.log(err));
+ }
+
     const modifDetenteur= async (e) => {
+        console.log(post, id)
         e.preventDefault();
-        const idDtenteur = id
         const data = {
-            name: name,
+            post: post,
         }
-        console.log(data)
-        const res = await fetch(`http://localhost:3002/api/detenteurs/${idDtenteur}` , {
-          method: "PUT",
-          headers: {"Content-Type" : "application/json"},
-          body:JSON.stringify(data)
-      })
-      getAlldetenteur();
+        await axios.patch(`http://localhost:5000/detenteurs/${id}`,data, {
+          withCredentials: true
+       } );
+
+      getDetenteurs();
       setModifModale(false)
       emptyData();
     }
 
-    const deleteDetenteur = async (idDtenteur)=>{
-        const res = await fetch(`http://localhost:3002/api/detenteurs/${idDtenteur}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
+    const deleteDetenteur = async ()=>{
+        const res = await axios.delete(`http://localhost:5000/detenteurs/${id}`, {
+         withCredentials: true
         });
-        getAlldetenteur();
-        
+        getDetenteurs();
     }
 
     const emptyData  = ()=>{
-        setname('');
+        setPost('');
     }
 
     const getDataModif =(d)=>{
         setModifModale(true);
-      const {detenteur , id}  = d;
+        const { post , uuid}  = d;
       
-      setid(id);
-      setname(detenteur);
-    }
-    const getAlldetenteur = ()=>{
-        axios
-        .get('http://localhost:3002/api/detenteurs/allDetenteur')
-        .then((res) => setAllData(res.data))
-        .catch((err) => console.log(err));
+      setid(uuid);
+      setPost(post);
     }
 
-
-
-
-
+    const  getId=(uid)=>{
+      setid(uid)
+    }
 
   const customStyles = {
     control: (provided) => ({
@@ -123,13 +117,13 @@ function ListeDetenteur() {
        />
       </div> */}
 
-      <div className="wrapper_form_detenteur">
-        <form action="" className='form_detenteur'>
+    <div className="wrapper_form_detenteur">
+          <form action="" className='form_detenteur'>
             <div className='row'>
                 <label htmlFor="nom"></label>
             </div>
-        </form>
-      </div>
+          </form>
+    </div>
 
 
       <div className="table">
@@ -137,28 +131,26 @@ function ListeDetenteur() {
             <h1 className='titleOne'>Listes des détenteurs</h1>
             <div>
                 <input type="text" placeholder='Post' />
-                <button className="add_new" onClick={()=>setDatajout(true)}>+ Ajouter</button>
+                <Link className="add_new" onClick={()=>setDatajout(true)}>+ Ajouter</Link>
             </div>
-
         </div>
 
         <div className="table_section">
             <table>
                 <thead>
                     <tr>
-                        <td>Détenteur</td>
-                        <td>Action</td>
+                        
+                        <td id='td-right'>Détenteur</td>
+                        <td id='td-left'>Action</td>
                     </tr>
                 </thead>
                 <tbody>
-                    { allData.map((d,i) => (<tr className='row' key={i}>
-                        
-                        <td><strong> {i+1} </strong>{d.detenteur}</td>
-                 
+                    { detenteurs.map((d,i) => (<tr className='row' key={i}>
+                        <td id='td-right'><strong> {i+1} </strong>{d.post}</td>
                         <td > 
                             <span className='tdbtns'>
-                            <button onClick={() => { setModifModale(true); getDataModif(d); }}><FaEdit  className='icon'/></button>
-                            <button onClick={() => {  setsuppModale(true); setid(d.id)}}> <FaTrash  className='icon'/> </button>
+                            <button onClick={() => {  setsuppModale(true); getId(d.uuid)}}> <FaTrash  className='icon'/> </button>
+                            <a onClick={() => { setModifModale(true); getDataModif(d); }}><FaEdit  className='icon'/></a>
                             </span>
                         </td>
                     </tr>))}
@@ -171,27 +163,26 @@ function ListeDetenteur() {
 
     {ajoutData &&   
     <div className='wrapperModale'> 
-        <div className=" formAddDetenteur">
+        <div className=" modal">
            <div className="headformDetenteur ">
-             <h1>Nouveau Detenteur </h1>
+             <h1 className='titleOne'>Nouveau Detenteur </h1>
              <FaRegWindowClose onClick={()=>setDatajout(false)} className='icon pointeur text-danger-hover' />
            </div>
       
-
          <div className="bodyformDetenteur ">
               <div className="row">
                  <div className="column">
                   <label htmlFor="detenteur">Detenteur</label>
-                  <input value={name} onChange={(e)=>setname(e.target.value)} type="text" name='detenteur' placeholder='Post' />
+                  <input value={post} onChange={(e)=>setPost(e.target.value)} type="text" name='detenteur' placeholder='Detenteur' />
                  </div>
               </div>
               <hr style={{margin:"4px"}} />
-              <div className="flex">
+              <div className="flex1">
                 <div className="column">
-                    <button className="btn primary flex" onClick={ajoutDetenteur}> <GrValidate className='icon' /> Valider</button >
+                    <button className="btn primary flex1" onClick={ajoutDetenteur}> <GrValidate className='icon' /> Valider</button >
                  </div>
                  <div className="column">
-                    <button className=" danger btn text-white p-1 flex"> <TiCancel className='icon' /> Annuler</button >
+                    <button className=" danger btn text-white p-1 flex1"> <TiCancel className='icon' /> Annuler</button >
                  </div>
               </div> 
          </div>
@@ -200,9 +191,9 @@ function ListeDetenteur() {
     }
     {modifModale &&   
     <div className='wrapperModale'> 
-        <div className=" formAddDetenteur">
+        <div className=" modal">
            <div className="headformDetenteur ">
-             <h1>Nouveau Detenteur </h1>
+             <h1 className='titleOne'>Modification d'un Detenteur </h1>
              <FaRegWindowClose onClick={()=>setModifModale(false)} className='icon pointeur text-danger-hover' />
            </div>
       
@@ -210,13 +201,13 @@ function ListeDetenteur() {
               <div className="row">
                  <div className="column">
                   <label htmlFor="detenteur">Detenteur</label>
-                  <input value={name} onChange={(e)=>setname(e.target.value)} type="text" name='detenteur' placeholder='Post' />
+                  <input value={post} onChange={(e)=>setPost(e.target.value)} type="text" name='detenteur' placeholder='Post' />
                  </div>
               </div>
               <hr style={{margin:"4px"}} />
-              <div className="flex">
-                 <div className="column">
-                    <button  className="btn primary flex" onClick={modifDetenteur} > <GrValidate className='icon' />Modifier</button >
+              <div className="flex1">
+                 <div className="colum">
+                    <button  className="btn primary flex1" onClick={modifDetenteur} > <GrValidate className='icon' />Modifier</button >
                  </div>
                  <div className="column">
                     <button  onClick={()=> {setModifModale(false); emptyData()}} className=" danger btn text-white p-1 flex"> <TiCancel className='icon' /> Annuler</button >
@@ -229,23 +220,23 @@ function ListeDetenteur() {
 
     {suppModale &&   
     <div className='wrapperModale'> 
-        <div className=" formAddDetenteur">
+        <div className=" modal">
            <div className="headformDetenteur ">
-             <h1>Suppression </h1>
+             <h1 className='titleOneSupp' >Suppression </h1>
              <FaRegWindowClose onClick={()=>setsuppModale(false)} className='icon pointeur text-danger-hover' />
            </div>
            <div className="bodyformDetenteur ">
               <div className="row">
                  <div className="column">
-                  <p className='parasupp'>Voulez-vous continuer la suppression ?</p>
+                  <p className='parasupp'>Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.</p>
                  </div>
               </div>
-              <div className="flex">
+              <div className="flex1">
                  <div className="column">
-                    <button  className="btn primary flex" onClick={()=>{deleteDetenteur(id); setsuppModale(false)}} > <GrValidate className='icon' />Oui</button >
+                    <button  className="btn primary flex1" onClick={()=>{deleteDetenteur(); setsuppModale(false)}} > <GrValidate className='icon' />Oui</button >
                  </div>
                  <div className="column">
-                    <button  onClick={()=> {setsuppModale(false); emptyData()}} className=" danger btn text-white p-1 flex"> <TiCancel className='icon' /> Nom</button >
+                    <button  onClick={()=> {setsuppModale(false); emptyData()}} className=" danger btn text-white p-1 flex1"> <TiCancel className='icon' /> Nom</button >
                  </div>
               </div> 
            </div>
