@@ -1,8 +1,9 @@
 
 import React, { useState , useEffect} from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import './formEditUser.css'
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 function FormEditUser() {
 
   const [name, setName] = useState("");
@@ -10,33 +11,39 @@ function FormEditUser() {
   const [password, setPassword] = useState("");
   const [confPassword, setConfPassword] = useState("");
   const [role, setRole] = useState("");
-  const [msg, setMsg] = useState("");
+  const [msg, setmsg] = useState();
   const navigate = useNavigate();
   const { id } = useParams();
+
+
 
 
   useEffect(() => {
     const getUserById = async () => {
       try {
-        alert(role)
         const response = await axios.get(`http://localhost:5000/users/${id}`,{
           withCredentials: true
       } );
         setName(response.data.name);
         setEmail(response.data.email);
         setRole(response.data.role);
+        setPassword(response.data.password)
        
       } catch (error) {
         if (error.response) {
-          setMsg(error.response.data.msg);
+          console.log(error.response.data.msg);
         }
       }
     };
     getUserById();
   }, [id]);
 
-  const updateUser = async (e) => {
+  const updateUser = async (e) =>{
     e.preventDefault();
+    if(name===''|| email==='' ||  password ==='' || confPassword===''){
+      setmsg('Tous les champs doivent être remplis.')
+      return
+     }
     try {
       await axios.patch(`http://localhost:5000/users/${id}`, {
         name: name,
@@ -50,21 +57,24 @@ function FormEditUser() {
       navigate("/users");
     } catch (error) {
       if (error.response) {
-        setMsg(error.response.data.msg);
+       console.log(error)
       }
     }
   };
   return (
     <div>
-            <div className="talbe_header">
-                <p className='titleOne'>Modification d'un utilisateur</p>
-                <div>
-              </div>
+        <div className="talbe_header">
+           <Link to={'/users'}> <MdOutlineKeyboardBackspace className='back' />
+           </Link>  <h1 className='titleOne'>Modification d'un utilisateur<h1 className='titleOne'> </h1></h1>
+            <div>
+                
             </div>
+        </div>
 
     <form className="form-container" onSubmit={updateUser} >
+    {msg && (<p className='showMessage'>{msg}</p>)}
       <div className="form-group">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">Nom</label>
         <input
           type="text"
           id="name"
@@ -77,7 +87,7 @@ function FormEditUser() {
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input
-          type="email"
+          type="email" required
           id="email"
           placeholder="Email"
           value={email}
@@ -86,7 +96,7 @@ function FormEditUser() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password">Mot de passe</label>
         <input
           type="password"
           id="password"
@@ -97,7 +107,7 @@ function FormEditUser() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="confirm-password">Confirm Password</label>
+        <label htmlFor="confirm-password">Confirmer mot de passe</label>
         <input
           type="password"
           id="confirm-password"
@@ -108,15 +118,17 @@ function FormEditUser() {
       </div>
 
       <div className="form-group">
-        <label htmlFor="role">Role</label>
+        <label htmlFor="role">Rôle</label>
         <select
           id="role"
           value={role}
           onChange={(e) => setRole(e.target.value)}
+          
         >
-          <option value="Admin">Admin</option>
-          <option value="User">User</option>
-          <option value="Superuser">Superuser</option>
+          <option value="">rôle </option>
+          <option value="admin">Admin</option>
+          <option value="user">User</option>
+          <option value="superviseur">Superuser</option>
         </select>
       </div>
 

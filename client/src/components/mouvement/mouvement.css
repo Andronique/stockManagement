@@ -7,10 +7,20 @@
     display: flex;
     gap: 20px;
     border: 1px solid var(--black);
+    font-size: 17px;
 }
-.btnsMouvement button.disabled{
-    color: var(--black);
+.btnsMouvement button.redflow{
+    /* color: var(--black); */
+    background-color:#CF0101;
+    /* --red :  #CF0101; #f80000 */
+    color: var(--white);
 }
+
+.btnsMouvement button.red{
+  background-color:#CF0101 ;
+  color: var(--white);
+}
+
 .btnsMouvement button.selectione{
     background-color: var(--blue);
     color: white;
@@ -18,7 +28,7 @@
 
 
 
-.formUpdate , {
+.formUpdate  {
     margin-top: 10px;
     border: 2px solid var(--black);
     border-radius: 4px;
@@ -94,7 +104,6 @@
       padding: 8px;
       border-radius: 4px;
       width: 100%;
-   
       color: fff;
   }
   
@@ -104,3 +113,32 @@
     border-color: #489efa; /* Light blue focus border */
   }
 
+.wrapperHeadTable{
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+    background-color: rgba(240, 240, 240) ;
+    padding: 4px;
+    align-items: center;
+}
+
+.ListesArticles .headTable{
+    border: 2px solid var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    border-radius: 4px;
+    width: 50%;
+    padding: 7px;
+    border-bottom: 1px solid var(--blue);
+    background-color: var(--white);
+}
+.ListesArticles .headTable .icon{
+   position: absolute;
+   right: 0;
+   top: 3px;
+   font-size: 25px;
+   pointer-events: none;
+   color:var(--black);
+}

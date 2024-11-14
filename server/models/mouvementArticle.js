@@ -28,12 +28,12 @@ const Mouvement = db.define('mouvement', {
     allowNull: false,
     validate:{ 
         notEmpty: true,
-        len: [3, 100]
+      
     }},
     fournisseur: {
     type: DataTypes.STRING,
     validate:{
-        len: [3, 100]
+        len: [1, 100]
     }},
 
     typeArticle: {

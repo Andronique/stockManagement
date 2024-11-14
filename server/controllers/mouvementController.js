@@ -139,4 +139,9 @@ const getMouvementData = async (req , res) => {
 
 
 
-export {entranceMouvement , exitMouvement , mouvementSortie , listEntrnceMouvement , listExitMouvement , getMouvementData}
+export {entranceMouvement ,
+       exitMouvement ,
+       mouvementSortie , 
+      listEntrnceMouvement , 
+      listExitMouvement , 
+      getMouvementData}

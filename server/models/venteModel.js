@@ -20,5 +20,3 @@ const modelVente = (sequelize , DataTypes)=>{
     return Product
 }
 export default modelVente
-
-

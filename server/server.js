@@ -11,16 +11,14 @@ import DetenteurRoute from './routes/detenteurRoutes.js'
 import Articlerouter from './routes/articleRoutes.js'
 import refCounterRouter from './routes/refArticleRoute.js'
 import mouvementRouter from './routes/mouvementRoutes.js'
-dotenv.config()
+
+dotenv.config()  
 const app= express();
 const port = process.env.PORT || 3002;
-
 
 // (async()=>{ 
 //     await db.sync();
 // })();    
-
-
 
 app.use(cors({ 
     credentials:true,

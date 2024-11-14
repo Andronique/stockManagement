@@ -1,0 +1,13 @@
+.statistique{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-bottom: 3px solid var(--black);
+    
+}
+
+.statistique div{
+    position: relative;
+}
+.center{
+    text-align: center;
+}

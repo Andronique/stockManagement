@@ -3,10 +3,14 @@ import axios from 'axios';
 import { FaTrash } from "react-icons/fa6";
 import { FaEdit, FaRegWindowClose } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { GrValidate } from 'react-icons/gr';
+import { TiCancel } from 'react-icons/ti';
 
 
 function Users() {
     const [users, setUsers] = useState([]);
+    const [suppModale, setsuppModale] = useState(false);
+    const [id, setid] = useState(null);
 
     useEffect(()=>{
         getUsers();
@@ -20,22 +24,25 @@ function Users() {
         .catch((err) => console.log(err));
     }
 
-    const deleteUser = async (userId) => {
-        const confirmation = window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.");
-        if (confirmation) {
+    const  getId=(uid)=>{
+        setid(uid)
+      }
+
+    const deleteUser = async () => {
+    //   alert(id)
             try {
-                await axios.delete(`http://localhost:5000/users/${userId}`, { 
+                await axios.delete(`http://localhost:5000/users/${id}`, { 
                     withCredentials: true 
                 });
-                alert('L\'utilisateur a été supprimé avec succès.');
+                // alert('L\'utilisateur a été supprimé avec succès.');
                 getUsers();
             } catch (error) {
                 console.error('Erreur lors de la suppression de l\'utilisateur :', error.response || error.message);
                 alert('Une erreur est survenue lors de la suppression de l\'utilisateur.');
             }
-        } else {
-            alert('La suppression a été annulée.');
-        }
+    }
+    const emptyData  = ()=>{
+        setid('');
     }
 
   return (
@@ -68,7 +75,7 @@ function Users() {
                         <td>{user.email}</td>
                         <td>{user.role}</td>
                         <td> <span className='tdbtns'>
-                            <button onClick={() => deleteUser(user.uuid)}><FaTrash className='icon' /></button>
+                            <button onClick={() => {  setsuppModale(true); getId(user.uuid)}}><FaTrash className='icon' /></button>
                            <Link
                            to={`/users/edit/${user.uuid}`}>  <FaEdit  className='icon' /></Link>
                         </span>
@@ -79,6 +86,31 @@ function Users() {
             </table>
         </div>
     </div>
+    {suppModale &&   
+    <div className='wrapperModale'> 
+        <div className=" modal">
+           <div className="headformDetenteur ">
+             <h1 className='titleOneSupp' >Suppression </h1>
+             <FaRegWindowClose onClick={()=>setsuppModale(false)} className='icon pointeur text-danger-hover' />
+           </div>
+           <div className="bodyformDetenteur ">
+              <div className="row">
+                 <div className="column">
+                  <p className='parasupp'>Êtes-vous sûr de vouloir supprimer cet utilisateur ? Cette action est irréversible.</p>
+                 </div>
+              </div>
+              <div className="flex1">
+                 <div className="column">
+                    <button  className="btn primary flex1" onClick={()=>{deleteUser(); setsuppModale(false)}} > <GrValidate className='icon' />Oui</button >
+                 </div>
+                 <div className="column">
+                    <button  onClick={()=> {setsuppModale(false); emptyData()}} className=" danger btn text-white p-1 flex1"> <TiCancel className='icon' /> Nom</button >
+                 </div>
+              </div> 
+           </div>
+        </div>
+     </div>
+    }
     </div>
   )
 }

@@ -16,7 +16,7 @@ const Detenteur = db.define('detenteur', {
     allowNull: false,
     validate:{ 
         notEmpty: true,
-        len: [3, 100]
+        len: [1, 100]
     }},
 },{
     freezeTableName: true

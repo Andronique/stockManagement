@@ -9,11 +9,11 @@ import axios from 'axios';
 import './listeDetenteur.css'
 
 function ListeDetenteur() {
-
+    const [msg, setmsg] = useState(null);
     const [ajoutData , setDatajout] = useState(false)
     const [modifModale , setModifModale] = useState(false)
     const [detenteurs, setDetenteurs] = useState([]);
-    const [post, setPost] = useState(null);
+    const [post, setPost] = useState('');
     const [id, setid] = useState(null);
     const [suppModale, setsuppModale] = useState(false);
 
@@ -24,10 +24,16 @@ function ListeDetenteur() {
     // ================= talk to server =========
     const ajoutDetenteur= async (e) => {
         e.preventDefault()
+        setmsg('')
+        if(post === ''){
+          setmsg('Le champ doivent être remplis.')
+          console.log(msg)
+          return
+         }
         const data = {
             post: post,
         }
-        const res = await axios.post('http://localhost:5000/detenteurs' ,data,  {
+      const res = await axios.post('http://localhost:5000/detenteurs' ,data,  {
           withCredentials: true
       })
       getDetenteurs();
@@ -131,7 +137,7 @@ function ListeDetenteur() {
             <h1 className='titleOne'>Listes des détenteurs</h1>
             <div>
                 <input type="text" placeholder='Post' />
-                <Link className="add_new" onClick={()=>setDatajout(true)}>+ Ajouter</Link>
+                <Link className="add_new" onClick={()=>{setDatajout(true) ; setmsg(''); setPost('')}}>+ Ajouter</Link>
             </div>
         </div>
 
@@ -168,8 +174,10 @@ function ListeDetenteur() {
              <h1 className='titleOne'>Nouveau Detenteur </h1>
              <FaRegWindowClose onClick={()=>setDatajout(false)} className='icon pointeur text-danger-hover' />
            </div>
-      
+           
          <div className="bodyformDetenteur ">
+         
+         {msg && (<p className='showMessage'>{msg}</p>)}
               <div className="row">
                  <div className="column">
                   <label htmlFor="detenteur">Detenteur</label>
@@ -178,11 +186,15 @@ function ListeDetenteur() {
               </div>
               <hr style={{margin:"4px"}} />
               <div className="flex1">
+
+
+
+
                 <div className="column">
-                    <button className="btn primary flex1" onClick={ajoutDetenteur}> <GrValidate className='icon' /> Valider</button >
+                    <button className="btn primary flex1" onClick={ajoutDetenteur }> <GrValidate className='icon' /> Valider</button >
                  </div>
                  <div className="column">
-                    <button className=" danger btn text-white p-1 flex1"> <TiCancel className='icon' /> Annuler</button >
+                    <button onClick={()=>{setDatajout(false) ; setmsg('')}} className=" danger btn text-white p-1 flex1"> <TiCancel className='icon' /> Annuler</button >
                  </div>
               </div> 
          </div>

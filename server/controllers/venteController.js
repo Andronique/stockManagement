@@ -1,4 +1,4 @@
-import { Op, where } from "sequelize";
+import { Op, Sequelize, where } from "sequelize";
 import User from "../models/UserModel.js";
 import Article from "../models/articleModel.js";
 import Mouvement from "../models/mouvementArticle.js";
@@ -165,11 +165,111 @@ const deleteArticles = async(req, res)=>{
 
 }
 
+const getTotalArticles = async (req, res) => {
+    try {
+      const totalUsers = await Article.count();
+      res.status(200).json(totalUsers);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur lors de la récupération du nombre total d\'utilisateurs' });
+    }
+  };
+
+  const getTopAndLeastUsedArticles = async (req, res) => {
+    try {
+      const topAndLeastArticles = await Mouvement.findAll({
+        where: { typeMouvement: 'sortie' },
+        attributes: [
+          [Sequelize.col('Article.design'), 'nomArticle'],
+          [Sequelize.fn('SUM', Sequelize.col('Mouvement.quantite')), 'nombreUtilisation'],
+        ],
+        group: ['Article.id'],
+        include: [{
+          model: Article,
+          attributes: [],
+        }],
+        order: [[Sequelize.literal('nombreUtilisation'), 'DESC']],
+        raw: true,
+      });
+  
+      // Récupère les trois articles les plus utilisés
+      const topThreeArticles = topAndLeastArticles.slice(0, 3);
+  
+      // Récupère les trois articles les moins utilisés
+      const leastThreeArticles = topAndLeastArticles.slice(-3);
+  
+      // Combine les deux ensembles de données
+      const result = [...topThreeArticles, ...leastThreeArticles];
+  
+      res.status(200).json(result);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).json({ msg: error.message });
+    }
+  };
+
+  const getArticleBySingleDate = async (req, res) => {
+    try {
+      const { date } = req.body; // Utiliser "date" comme clé unique dans le body
+  
+      if (!date) {
+        return res.status(400).json({ error: "La date doit être fournie" });
+      }
+  
+      const movements = await Article.findAll({
+        where: {
+          dateAquisition: {
+            [Op.eq]: date
+          }
+        }
+      });
+      res.status(200).json(movements);
+    } catch (error) {
+      console.error("Erreur lors de la récupération des mouvements:", error);
+      res.status(500).json({ error: "Erreur lors de la récupération des mouvements" });
+    }
+  };
+
+
+  const getInkConsumptionByPAC = async (req, res) => {
+    try {
+      const inkConsumptio = await Mouvement.findAll({
+        where: {
+          typeMouvement: 'sortie',
+        },
+        include: [
+          {
+            model: Article,
+            where: {
+              design: 'encre',
+            },
+            attributes: [] // Exclut les autres attributs de `Article` pour alléger la requête
+          }
+        ],
+        attributes: [
+          'beneficiaire',
+          [sequelize.fn('SUM', sequelize.col('quantite')), 'totalEncreConsommée']
+        ],
+        group: ['beneficiaire']
+      });
+  
+      res.status(200).json(inkConsumption);
+    } catch (error) {
+      console.error("Erreur lors de la récupération de la consommation d'encre:", error);
+      res.status(500).json({ error: "Erreur lors de la récupération de la consommation d'encre" });
+    }
+  };
+  
+
 export{
     getArticleById,
     getArticles, 
     createArticles,
     updateArticles, 
-    deleteArticles
+    deleteArticles,
+    getTotalArticles,
+    getTopAndLeastUsedArticles,
+    getArticleBySingleDate,
+    getInkConsumptionByPAC
 }
 

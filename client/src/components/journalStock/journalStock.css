@@ -28,13 +28,15 @@
   }
 
   .td-detail .nb{
-    width: 45px;
+    width: 40px;
+    display: inline-block;
   }
   .td-detail{
     text-align: center;
     justify-content: center;
     align-items: center;
   }
+
 
   .td-deta{
     display: flex;

@@ -51,7 +51,7 @@ function Sidebar({toggleMenu}) {
         {user && (user.role === "admin" || user.role === "user") &&
            (<>
 
-        <li>
+         <li>
           <NavLink to="/dashboard">
             <span className="icon">
               <AiFillHome className="ionIcon" />
@@ -93,28 +93,26 @@ function Sidebar({toggleMenu}) {
             <span className="title">Détenteur</span>
           </NavLink>
         </li>
-        <li>
+        {user && user.role ==="admin" && ( <li>
           <NavLink to="/users">
             <span className="icon">
               <AiOutlineUsergroupAdd className="ionIcon" />
             </span>
             <span className="title">Users</span>
           </NavLink>
-        </li>
+        </li>)} 
+       
            </>)
         }
       
-
-
-
-        <li>
+        {user && (user.role === "superviseur" || user.role ==="admin") && ( <li>
           <NavLink to="/journalstock">
             <span className="icon">
               <FaBookJournalWhills className="ionIcon" />
             </span>
             <span className="title">Journal de stock</span>
           </NavLink>
-        </li>
+        </li>)} 
 
         <span className="reduire" onClick={toggleMenu}>
           <span className="icon">

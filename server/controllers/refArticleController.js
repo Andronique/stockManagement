@@ -4,7 +4,6 @@ const getNextRefArticle = async (req, res) => {
   try {
     // Find the last article counter (or create one if none exists)
     let counter = await ArticleCounter.findOne({ where: { id: 1 } });
-
     if (!counter) {
       counter = await ArticleCounter.create({ lastNumArticle: '0000' });
     }

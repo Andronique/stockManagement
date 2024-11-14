@@ -133,6 +133,7 @@ function FormAddArticle() {
           value={typeArticle}
           onChange={(e) => settypeArticle(e.target.value)}
         >
+          <option value=""></option>
           <option value="Fourniture consommable">Fourniture consommable</option>
           <option value="Produit d'entretien">Produit d'entretien</option>
        </select>
@@ -143,9 +144,10 @@ function FormAddArticle() {
           value={piece}
           onChange={(e) => setPiece(e.target.value)}
         >
+          <option value=""></option>
           <option value="Pièce">Pièce</option>
           <option value="Boite">Boite</option>
-       </select>
+        </select>
       </div>
         </div>
         <div className="flex1">

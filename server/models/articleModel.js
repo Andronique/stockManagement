@@ -12,13 +12,12 @@ const Article = db.define('article', {
     validate:{ 
         notEmpty: true
     }},
-
     ref: {
     type: DataTypes.STRING,
     allowNull: false,
     validate:{ 
         notEmpty: true,
-        len: [3, 100]
+        len: [1, 100]
     }},
 
     design: {
@@ -26,14 +25,14 @@ const Article = db.define('article', {
     allowNull: false,
     validate:{ 
         notEmpty: true,
-        len: [3, 100]
+        len: [1, 100]
     }},
     fournisseur: {
     type: DataTypes.STRING,
     allowNull: false,
     validate:{ 
         notEmpty: true,
-        len: [3, 100]
+        len: [1, 100]
     }},
 
     typeArticle: {
@@ -41,14 +40,14 @@ const Article = db.define('article', {
     allowNull: false,
     validate:{ 
         notEmpty: true,
-        len: [3, 100]
+        len: [1, 100]
     }},
     obs: {
     type: DataTypes.STRING,
     allowNull: false,
     validate:{ 
         notEmpty: true,
-        len: [3, 100]
+        len: [1, 100]
     }},
 
     dateAquisition: {
@@ -61,7 +60,7 @@ const Article = db.define('article', {
     allowNull: false,
     validate:{ 
         notEmpty: true,
-        len: [3, 100]
+        len: [1, 100]
     }},
     quantite: {
     type: DataTypes.INTEGER,

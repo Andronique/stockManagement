@@ -5,9 +5,7 @@ import { Sequelize } from "sequelize";
 import Mouvement from "../models/mouvementArticle.js";
 import Detenteur from "../models/detenteurModel.js";
 
-
 const entranceMouvement =async(req, res)=>{
-
     try {
       
         const { id, quantite, fournisseur, design, typeArticle, unite ,numArticle} = req.body;       
@@ -345,6 +343,305 @@ const updateEntranceMouvement =async(req, res)=>{
       res.status(400).json({msg: error.message});
   }
 }
+
+
+
+const getTopUsedArticles = async (req, res) => {
+  try {
+    const topArticles = await Mouvement.findAll({
+      where: { typeMouvement: 'sortie' }, // On compte les sorties pour mesurer l'utilisation
+      attributes: [
+        [Sequelize.col('Article.design'), 'nomArticle'], // Récupère le nom de l'article
+        [Sequelize.fn('SUM', Sequelize.col('Mouvement.quantite')), 'totalUsage'] // Somme de la quantité utilisée
+      ],
+      group: ['Article.id'], // Groupement par article
+      order: [[Sequelize.literal('totalUsage'), 'DESC']], // Trie par total d'utilisation décroissant
+      limit: 4, // Limite aux 4 articles les plus utilisés
+      include: [{
+        model: Article,
+        attributes: [] // Évite d'ajouter d'autres attributs du modèle Article
+      }]
+    });
+
+    res.status(200).json(topArticles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erreur lors de la récupération des articles les plus utilisés' });
+  }
+};
+
+const getLeastUsedArticles = async (req, res) => {
+  try {
+    const leastUsedArticles = await Mouvement.findAll({
+      where: { typeMouvement: 'sortie' }, // On considère les sorties comme mesure d'utilisation
+      attributes: [
+        [Sequelize.col('Article.design'), 'nomArticle'], // Récupère le nom de l'article
+        [Sequelize.fn('SUM', Sequelize.col('Mouvement.quantite')), 'totalUsage'] // Somme de la quantité utilisée
+      ],
+      group: ['Article.id'], // Groupement par article
+      order: [[Sequelize.literal('totalUsage'), 'ASC']], // Trie par total d'utilisation croissant
+      limit: 4, // Limite aux 4 articles les moins utilisés
+      include: [{
+        model: Article,
+        attributes: [] // Exclut les autres attributs du modèle Article
+      }],
+      raw: true // Retourne des données brutes
+    });
+
+    res.status(200).json(leastUsedArticles);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erreur lors de la récupération des articles les moins utilisés' });
+  }
+};
+
+
+const getTotalMouvement = async (req, res) => {
+  try {
+    const totalUsers = await Mouvement.count(); // Compte le nombre total d'utilisateurs
+    res.status(200).json(totalUsers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erreur lors de la récupération du nombre total d\'utilisateurs' });
+  }
+};
+
+
+
+
+const getMovementsByDateAndTypeEntree = async (req, res) => {
+  try {
+    const { startDate, endDate } = req.body;
+    console.log("Dates reçues:", startDate, endDate);
+    
+    let whereClause = {};
+        // Ajouter un jour à endDate si les deux dates sont fournies
+
+
+    if (startDate && endDate) {
+      
+      // Recherche entre deux dates
+      whereClause.dateMouvement = {
+        [Op.between]: [startDate, endDate]
+      };
+    } else if (startDate || endDate){
+      // Recherche avec une seule date
+      whereClause.dateMouvement = {
+        [Op.eq]: startDate || endDate // Utilise l'une des deux dates si disponible
+      };
+    }
+
+    const movements = await Mouvement.findAll({
+      where: {
+        typeMouvement: 'entree',
+        ...whereClause
+      },
+      include: [
+        {
+          model: Article,
+        }
+      ]
+    });
+
+    res.status(200).json(movements);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des mouvements:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des mouvements" });
+  }
+};
+
+// search by date for movement entree
+
+const getMovementsByDateAndTypeEntre = async (req, res) => {
+  try {
+  const { startDate, endDate } = req.body;
+  console.log(startDate , endDate)
+  let whereClause = {};
+
+  if (startDate && endDate) {
+    // Recherche entre deux dates
+    whereClause.dateMouvement = {
+      [Op.between]: [startDate, endDate]
+    };
+  } else if (startDate) {   
+    // Recherche avec seulement startDate
+    whereClause.dateMouvement = {
+      [Op.gte]: startDate
+    };
+  } else if (endDate) {
+    // Recherche avec seulement endDate
+    whereClause.dateMouvement = {
+      [Op.lte]: endDate
+    };
+  }
+
+ 
+    const movements = await Mouvement.findAll({
+      where: {
+        typeMouvement: 'entree',
+        ...whereClause
+      },
+      include: [
+        {
+          model: Article,
+        }
+      ]
+    });
+
+    res.status(200).json(movements);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des mouvements:", error);
+    console.log(error.message)
+    res.status(500).json({ error: "Erreur lors de la récupération des mouvements" });
+  }
+};
+
+
+// search by one date
+const getMovementsBySingleDate = async (req, res) => {
+  try {
+    const { date } = req.body; // Utiliser "date" comme clé unique dans le body
+
+    if (!date) {
+      return res.status(400).json({ error: "La date doit être fournie" });
+    }
+
+    const movements = await Mouvement.findAll({
+      where: {
+        typeMouvement: 'entree',
+        dateMouvement: {
+          [Op.eq]: date
+        }
+      },
+      include: [
+        {
+          model: Article,
+        }
+      ]
+    });
+    res.status(200).json(movements);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des mouvements:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des mouvements" });
+  }
+};
+
+
+// search by date for movement sortie
+const getMovementsByDateAndTypeExit = async (req, res) => {
+  try {
+  const { startDateExit, endDateExit } = req.body;
+  console.log(startDateExit , endDateExit)
+  let whereClause = {};
+
+  if (startDateExit && endDateExit) {
+    // Recherche entre deux dates
+    whereClause.dateMouvement = {
+      [Op.between]: [startDateExit, endDateExit]
+    };
+  } else if (startDateExit) {   
+    // Recherche avec seulement startDate
+    whereClause.dateMouvement = {
+      [Op.gte]: startDateExit
+    };
+  } else if (endDateExit) {
+    // Recherche avec seulement endDate
+    whereClause.dateMouvement = {
+      [Op.lte]: endDateExit
+    };
+  }
+
+const movements = await Mouvement.findAll({
+      where: {
+        typeMouvement: 'sortie',
+        ...whereClause
+      },
+          include:[{
+                model: Article,
+                attributes:['ref','obs']
+            },{
+                model: Detenteur,
+                attributes:['id','post']
+            }]
+});
+
+    res.status(200).json(movements);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des mouvements:", error);
+    console.log(error.message)
+    res.status(500).json({ error: "Erreur lors de la récupération des mouvements" });
+  }
+};
+
+
+// search by one date
+const getMovementsBySingleDateExit = async (req, res) => {
+  try {
+    const { date } = req.body; // Utiliser "date" comme clé unique dans le body
+
+    if (!date) {
+      return res.status(400).json({ error: "La date doit être fournie" });
+    }
+
+    const movements = await Mouvement.findAll({
+      where: {
+        typeMouvement: 'sortie',
+        dateMouvement: {
+          [Op.eq]: date
+        }
+      },
+      include: [
+        {
+          model: Article,
+        }
+      ]
+    });
+    res.status(200).json(movements);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des mouvements:", error);
+    res.status(500).json({ error: "Erreur lors de la récupération des mouvements" });
+  }
+};
+
+const getInkConsumptionByPAC = async (req, res) => {
+  try {
+    const inkConsumption = await Mouvement.findAll({
+      where: {
+        typeMouvement: 'sortie',
+      },
+      include: [
+        {
+          model: Article,
+          where: {
+            design: 'Encre',
+          },
+          attributes: [] // Exclude other attributes of `Article` to optimize query
+        }
+      ],
+      attributes: [
+        'beneficiaire',
+        [Sequelize.fn('SUM', Sequelize.col('Mouvement.quantite')), 'totalEncreConsommée']
+      ],
+      group: ['beneficiaire']
+    });
+
+    // Format the data to convert totalEncreConsommée to a number
+    const formattedData = inkConsumption.map(item => ({
+      beneficiaire: item.beneficiaire,
+      totalEncreConsommée: Number(item.getDataValue('totalEncreConsommée')) // Convert to number
+    }));
+
+    res.status(200).json(formattedData);
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la consommation d'encre:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+
+      
+
+
 export {
     entranceMouvement,
     exitMouvement, 
@@ -355,6 +652,14 @@ export {
     mouvementInByIdd,
     mouvementOutByIdd,
     updateExitMouvement,
-    updateEntranceMouvement
+    updateEntranceMouvement,
+    getTopUsedArticles,
+    getLeastUsedArticles,
+    getTotalMouvement,
+    getMovementsByDateAndTypeEntree,
+    getMovementsBySingleDate,
+    getMovementsByDateAndTypeExit,
+    getMovementsBySingleDateExit,
+    getInkConsumptionByPAC
 }
 

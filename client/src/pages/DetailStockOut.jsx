@@ -5,7 +5,7 @@ import DetailStockOutIn from '../components/detailstock/DetailStockOutIn'
 function DetailstockOut() {
   return (
     <ProtectedLayout>
-      <DetailStockOutIn />
+      <DetailStockOutIn/>
     </ProtectedLayout>
   )
 }

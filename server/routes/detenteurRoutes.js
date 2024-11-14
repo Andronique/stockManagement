@@ -2,7 +2,8 @@ import { deleteDetenteur,
          getDetenteurById, 
          getDetenteurs, 
          updateDetenteurs,
-         createDetenteurs } from '../controllers/DenteurController.js'
+         createDetenteurs, 
+         getTotalDetenteur} from '../controllers/DenteurController.js'
 
 
 import express from 'express'
@@ -13,6 +14,7 @@ router.post('/detenteurs' ,createDetenteurs)
 router.get('/detenteurs' , getDetenteurs)
 router.get('/detenteurs/:id' , getDetenteurById)
 router.delete('/detenteurs/:id' , deleteDetenteur)
+router.get('/getTotalDetenteur' , getTotalDetenteur)
     
 
 export default router

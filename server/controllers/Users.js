@@ -78,7 +78,7 @@ const updateUsers = async(req, res)=>{
 
 }
 
-    const deleteUser = async(req, res) =>{
+const deleteUser = async(req, res) =>{
         const user = await User.findOne({
             where: {
                 uuid: req.params.id
@@ -97,11 +97,21 @@ const updateUsers = async(req, res)=>{
         }
 }
 
-
+const getTotalUsers = async (req, res) => {
+    try {
+      const totalUsers = await User.count(); // Compte le nombre total d'utilisateurs
+      res.status(200).json(totalUsers);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur lors de la récupération du nombre total d\'utilisateurs' });
+    }
+  };
+  
 export{
     getUserById,
     getUsers, 
     createUsers,
     updateUsers, 
-    deleteUser
+    deleteUser,
+    getTotalUsers
 }

@@ -7,7 +7,8 @@ import {
     getArticles, 
     createArticles,
     updateArticles, 
-    deleteArticles
+    deleteArticles,
+    getTotalArticles, getTopAndLeastUsedArticles, getArticleBySingleDate
  } from "../controllers/venteController.js";
 
  const router = express.Router();
@@ -17,5 +18,8 @@ router.get('/article/:id',verifyUser , getArticleById );
 router.post('/article',verifyUser , createArticles)
 router.patch('/article/:id',verifyUser , updateArticles)
 router.delete('/article/:id',verifyUser , deleteArticles)
+router.get('/getTotalArticles',getTotalArticles)
+router.get('/getTopAndLeastUsedArticles',getTopAndLeastUsedArticles)
+router.post('/getArticleBySingleDate',getArticleBySingleDate)
 
 export default router;

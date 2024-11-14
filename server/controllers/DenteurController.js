@@ -91,11 +91,21 @@ const deleteDetenteur = async (req, res) => {
   }
 };
 
+const getTotalDetenteur = async (req, res) => {
+    try {
+      const totalUsers = await Detenteur.count();
+      res.status(200).json(totalUsers);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur lors de la récupération du nombre total d\'utilisateurs' });
+    }
+  };
 
 export{
     getDetenteurById,
     getDetenteurs, 
     createDetenteurs,
     updateDetenteurs, 
-    deleteDetenteur
+    deleteDetenteur,
+    getTotalDetenteur
 }

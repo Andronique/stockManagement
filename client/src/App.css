@@ -210,7 +210,7 @@ td button:nth-child(1){
 
 th , td {
   border-bottom: 1px solid #dddddd;
-  padding: 10px 10px;
+  padding: 10px 0px;
   word-break: break-all;
   text-align: center;
 }
@@ -256,6 +256,7 @@ th , td {
   background-color: #249af54d;
   color: var(--softprimary);
 }
+
 
 .table .tdbtns{
 
@@ -373,4 +374,174 @@ thead{
 .back {
   cursor: pointer;
   font-size: 30px;
+}
+
+
+/* ============ Pagination ============== */
+
+.btnpn{
+  padding: 8px 10px;
+  background-color: var(--blue);
+  color: white;
+  font-weight: 400;
+}
+nav{
+  display: flex;
+  gap: 10px;
+  flex-direction: row-reverse;
+  margin-top: 10px;
+}
+ nav ul li.activated{
+  color: white;
+  background-color:  rgba(65, 70, 147, .9);
+  border: none;
+
+}
+ nav ul li{
+  padding: 8px 15px;
+  border: 1px solid var(--black);
+  font-weight: bolder;
+}
+ nav ul{
+  list-style: none;
+  cursor: pointer;
+}
+
+.nodataFound{
+  font-size: 20px;
+  color: var(--red);
+  width: 100%;
+  text-align: center !important;
+}
+.nodataFound:hover{
+  color: white;
+}
+
+
+button:disabled{
+  border: 1px solid #EAE8E8;
+  background-color:#EAE8E8 ;
+  color: #363636;
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.disabled{
+  border: 1px solid #EAE8E8;
+  background-color:#EAE8E8 ;
+  color: #363636;
+  opacity: 0.65;
+  cursor:pointer;
+}
+
+.disabled:hover{
+  opacity: 1;
+}
+
+
+@layers base { img { display: initial;}}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+th, td {
+  padding: 10px; /* Adds space within each cell */
+  text-align: left; /* Left-align text by default */
+  border-bottom: 1px solid #ddd; /* Adds a light line between rows */
+}
+
+th {
+  background-color: #4a4a8a; /* Darker background for headers */
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+td {
+  vertical-align: middle; /* Align text in the middle of each cell */
+}
+
+td:nth-child(4), td:nth-child(5) {
+  text-align: center; /* Center-align for Quantité and Unité */
+}
+
+td:nth-child(8) {
+  text-align: center; /* Center-align Action column for icons */
+}
+
+.search-betweenDate{
+  display: flex;
+  gap: 6px;
+  margin-right: 40px;
+}
+.search-betweenDate input{
+      border: 1px solid #616366;
+      outline: none;
+      padding: 8px;
+      border-radius: 4px;
+}
+
+.search-betweenDate input{
+  border: 1px solid #616366;
+  outline: none;
+  padding: 8px;
+  border-radius: 4px;
+
+}
+.search-betweenDate .icon{
+   background-color: var(--blue);
+   padding: 10px 5px;
+   color: var(--white);
+   font-size: 35px;
+   border-radius: 4px;
+}
+
+#btn{
+  padding: 8px 10px;
+  background-color: var(--blue);
+  color: white;
+  font-weight: 400;
+
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 15px;  
+  font-size: 16px;
+  margin-right: 10px;
+}
+.printer{
+  display: flex;
+  gap: 4px;
+  color: var(--whiteColor);
+  padding: 9px 10px;
+  background-color: var(--blue);
+  justify-content: center;
+  align-items: center;
+  outline: none;
+  border: none;
+  margin-left: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 15px;
+}
+.printer .icone{
+  display: flex;
+  margin-left: 5px;
+}
+
+.labelMandatory{
+  display: flex;
+  justify-content: space-between;
+}
+.labelMandatory .mandatory {
+  color: var(--red);
+  font-size: 19px;
+  font-weight: bolder;
+  margin-right: 5px;
 }

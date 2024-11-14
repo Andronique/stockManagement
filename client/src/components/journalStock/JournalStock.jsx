@@ -7,8 +7,36 @@ import { BiDetail } from "react-icons/bi";
 import { Link } from 'react-router-dom';
 function JournalStock() {
 
-    const [fetched, setfetched] = useState();
-    const  [allData, setallData] = useState([]);
+    const [fetched, setfetched] = useState(null);
+    const [allData, setallData] = useState([]);
+
+    /*********** Pagination **************/
+    const [currentPage, setcurrentPage] = useState(1);
+    const recordsPerPage = 6;
+    const lastIndex = currentPage * recordsPerPage;
+    const firstIndex = lastIndex - recordsPerPage;
+
+    const records = fetched ? fetched.slice(firstIndex, lastIndex) : allData.slice(firstIndex, lastIndex);
+
+    
+    const npage = Math.ceil(allData.length / recordsPerPage);
+    const numbers = [...Array(npage + 1).keys()].slice(1);
+
+    function prevPage() {
+      if (currentPage !== 1) {
+        setcurrentPage(currentPage - 1);
+      }
+    }
+    function changePage(id) {
+      setcurrentPage(id);
+    }
+    function nexPage() {
+      if (currentPage !== npage) {
+        setcurrentPage(currentPage + 1);
+      }
+    }
+
+
    
     useEffect(()=>{
       getAllMouvement();
@@ -61,20 +89,43 @@ function JournalStock() {
             </thead>
                
             <tbody>
-             { journaldata.length === 0 ? ( 
+             { records.length === 0 ? ( 
                <tr>
                <td colSpan="5" className='nodataFound'>Aucune donnée trouvée</td> {/* Adjust colSpan according to your table's columns */}
              </tr>
-             ) : (journaldata.map((d)=> (<tr>
+             ) : (records.map((d)=> (<tr>
                 <td> {d.ref} </td>
                 <td> {d.design} </td>
-                <td className='td-detail'><span className='nb'>{d.total_entrance_quantity}</span> <Link to={`/journalstock/detailentrance/${d.uuid}`} className='detail'><BiDetail className='icon' /> <span>détails In</span></Link>   </td>
-                <td className='td-detail'><span className='nb'>{d.total_exit_quantity}</span> <Link to={`/journalstock/detailexit/${d.uuid}`} className='detail'><BiDetail className='icon' /> <span>détails exit</span></Link>   </td>
+                <td className='td-detail flexdetail'><span className='nb'>{d.total_entrance_quantity}</span> <Link to={`/journalstock/detailentrance/${d.uuid}`} className='detail'><BiDetail className='icon' /> <span>détails</span></Link>   </td>
+                <td className='td-detail'><span className='nb'>{d.total_exit_quantity}</span> <Link to={`/journalstock/detailexit/${d.uuid}`} className='detail'><BiDetail className='icon' /> <span>détails </span></Link>   </td>
                 <td> {d.rest_quantity} </td>
              </tr>)) ) } 
                 
             </tbody>
-           </table>
+            </table>
+            <hr />
+            <nav>
+       <ul className="pagination flex">
+         <li className="page-item btnpn">
+           <span href="#" className="page-link" onClick={prevPage}>
+             Précedent
+           </span>
+         </li>
+         {numbers.map((n, i) => (
+           <li
+             className={`page-item ${currentPage === n ? "activated" : ""}`}
+             onClick={() => changePage(n)}
+           >
+             {n}
+           </li>
+         ))}
+         <li className="page-item btnpn ">
+           <span className="page-link" onClick={nexPage}>
+             Suivant
+           </span>
+         </li>
+       </ul>
+       </nav>
             </div>
         </div>
         

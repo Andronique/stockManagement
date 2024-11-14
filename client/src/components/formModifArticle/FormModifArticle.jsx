@@ -28,7 +28,7 @@ function FormModifArticle() {
   const saveArticle = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/article", {
+      await axios.patch(`http://localhost:5000/article/${id}`, {
         numArticle: numArticle,
         design: design,
         obs: obs,
@@ -37,7 +37,7 @@ function FormModifArticle() {
         piece:piece,
         quantite:quantite,
         date:date
-      },   {
+      }, {
         withCredentials: true, // Set withCredentials to true
       });
       navigate("/entree-article");
@@ -64,7 +64,6 @@ function FormModifArticle() {
     setObs(res.data.obs)
     setPiece(res.data.piece)
     console.log(res.data.piece)
-    
 })
    .catch((err) => console.log(err))
 }
@@ -75,9 +74,7 @@ fillData();
 const fillData=()=>{
     console.log(alldata)
     const {design, uuid, fournisseur, quantite, ref ,date,obs} = alldata;
-
 }
-
 
 const formatDate = (isoDate) => {
     const date = new Date(isoDate);
@@ -187,9 +184,7 @@ return (
                      className=" danger text-white p-1 btn flex1"> <TiCancel className='icon' /> <span>Annuler</span> </Link >
                  </div>
         </div>
-    </form>
-
-
+      </form>
     </div>
   )
 }
